@@ -64,7 +64,7 @@ var dotsTask = (function() {
             }
         },
         choices: "NO_KEYS",
-        trial_duration: 2000,
+        trial_duration: 1000,
     };     
 
     const trial = {
