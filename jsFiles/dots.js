@@ -202,15 +202,6 @@ var dotsTask = (function() {
         type: jsPsychExternalHtml,
         url: "./static/consent.html",
         cont_btn: "advance",
-        check_fn: function() {
-            let consentGiven = document.getElementById('advance').value;
-            console.log(consentGiven);
-            if(consentGiven) {
-                return true
-            } else {
-                jsPsych.endExperiment("The experiment has been terminated due to non-consent.") 
-            }
-        }
     };
 
     p.Qs.demographics = (function() {
