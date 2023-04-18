@@ -200,7 +200,7 @@ var dotsTask = (function() {
 
     p.Qs.consent = {
         type: jsPsychExternalHtml,
-        url: "/static/consent.html",
+        url: "./static/consent.html",
         cont_btn: "advance",
         check_fn: function() {
             let consentGiven = document.getElementById('advance').value;
