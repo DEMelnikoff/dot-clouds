@@ -95,18 +95,18 @@ var dotsTask = (function() {
     const factors = {
         drift: [settings.signal, -settings.signal],
         noise: [settings.noise],
-        trialType: [].concat(Array(6).fill('normal'), ['zigZag', 'flatLine']),
+        trialType: [].concat(Array(5).fill('normal'), ['zigZag', 'flatLine']),
         blockType: ['test'],
     };  // factors for making experimental design
     
     const factorsPractice = {
         drift: [settings.signal, -settings.signal],
         noise: [settings.noise],
-        trialType: Array(10).fill('normal'),
+        trialType: Array(5).fill('normal'),
         blockType: ['practice'],
     };  // factors for making practice block
 
-    const design = jsPsych.randomization.factorial(factors, 2);  // experimental design
+    const design = jsPsych.randomization.factorial(factors, 3);  // experimental design
     
     const designPractice = jsPsych.randomization.factorial(factorsPractice, 1);  // experimental design for practice block
 

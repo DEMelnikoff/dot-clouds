@@ -1,4 +1,4 @@
-const completionCode = "CB1K8YPV";
+const completionCode = "5665C3A9";
 
 const jsPsych = initJsPsych({
     on_finish: () => {
