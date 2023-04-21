@@ -8,7 +8,7 @@ var dotsTask = (function() {
         signal: 10,
         noise: 10,
         nDots: 100,
-        nRounds: 1,
+        nRounds: 5,
         breakLength: 10,
     };
 
