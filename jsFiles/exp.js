@@ -1,4 +1,4 @@
-var dotsTask = (function() {
+var exp = (function() {
 
 
     var p = {};
@@ -24,9 +24,6 @@ var dotsTask = (function() {
     *   INSTRUCTIONS
     *
     */
-
-
-    p.inst = {}
 
     const pages = {
         prePractice: [
@@ -58,21 +55,21 @@ var dotsTask = (function() {
             </div>`]
     };
 
-    p.inst.prePractice = {
+    p.prePractice = {
         type: jsPsychInstructions,
         pages: pages.prePractice,
         show_clickable_nav: true,
         post_trial_gap: 500,
     };
 
-    p.inst.postPractice = {
+    p.postPractice = {
         type: jsPsychInstructions,
         pages: pages.postPractice,
         show_clickable_nav: true,
         post_trial_gap: 500,
     };
 
-    p.inst.postTask = {
+    p.postTask = {
         type: jsPsychInstructions,
         pages: pages.postTask,
         show_clickable_nav: true,
@@ -85,8 +82,6 @@ var dotsTask = (function() {
     *   TASK
     *
     */
-
-    p.task = {}
 
     let round = 0  // track current round
     
@@ -128,8 +123,8 @@ var dotsTask = (function() {
                 data.response == "i" ? data.correct = false : data.correct = true;
             };
             if(data.rt > 60000) { 
-                data.boot = true;
-                jsPsych.endExperiment("The experiment has ended early due to inactivity.") 
+                jsPsych.data.addProperties({boot: true, bootReason: 'inactivity'});
+                jsPsych.endExperiment("The experiment has ended early due to inactivity.");
             }
         },
     };
@@ -176,18 +171,26 @@ var dotsTask = (function() {
         timeline_variables: design,
         on_timeline_start: function() {
             round++
-        }
+        },
     };
 
-    p.task.practice = {
+    p.practice = {
         timeline: [probe, feedback],
         randomize_order: true,
         timeline_variables: designPractice,
     };
 
-    p.task.block = {
+    p.block = {
         timeline: [trial, countdown],
         repetitions: settings.nRounds,
+        on_timeline_finish: () => {
+            let mdn_rt = jsPsych.data.get().filter({round: round}).select('rt').median();
+            console.log(mdn_rt);
+            if (mdn_rt < 300) {
+                jsPsych.data.addProperties({boot: true, bootReason: 'tooFast'});
+                jsPsych.endExperiment("The experiment has ended early due to overly-fast responding.");
+            }
+        }
     };
 
    /*
@@ -196,15 +199,13 @@ var dotsTask = (function() {
     *
     */
 
-    p.Qs = {};
-
-    p.Qs.consent = {
+    p.consent = {
         type: jsPsychExternalHtml,
         url: "./static/consent.html",
         cont_btn: "advance",
     };
 
-    p.Qs.demographics = (function() {
+    p.demographics = (function() {
 
         const gender = {
             type: jsPsychSurveyHtmlForm,
@@ -281,13 +282,13 @@ var dotsTask = (function() {
 
 // create timeline
 const timeline = [
-    dotsTask.Qs.consent, 
-    dotsTask.inst.prePractice, 
-    dotsTask.task.practice, 
-    dotsTask.inst.postPractice, 
-    dotsTask.task.block, 
-    dotsTask.inst.postTask, 
-    dotsTask.Qs.demographics, 
+    exp.consent, 
+    exp.prePractice, 
+    exp.practice, 
+    exp.postPractice, 
+    exp.block, 
+    exp.postTask, 
+    exp.demographics, 
     save_data];
 
 // initiate timeline
