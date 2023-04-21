@@ -105,12 +105,12 @@ const dots = function(c, signal, noise, trialType, responseKeys, nDots) {
         for(i = 0; i < n1; i++) {
             let xPos1 = posFactorial.xPos[randIdx[i]];
             let yPos1 = posFactorial.yPos[randIdx[i]];
-            drawCircle(ctx, xPos1, yPos1, rad, 'black', 'red', 2);
+            drawCircle(ctx, xPos1, yPos1, rad, 'red', 'red', 2);
         };
         for(i = n1; i < (n1 + n2); i++) {
             let xPos2 = posFactorial.xPos[randIdx[i]];
             let yPos2 = posFactorial.yPos[randIdx[i]];
-            drawCircle(ctx, xPos2, yPos2, rad, 'black', 'green', 2);
+            drawCircle(ctx, xPos2, yPos2, rad, 'blue', 'blue', 2);
         };
     };
 
@@ -130,12 +130,12 @@ const dots = function(c, signal, noise, trialType, responseKeys, nDots) {
         for(i = 0; i < n1; i++) {
             let xPos1 = posFactorial.xPos[randIdx[i]];
             let yPos1 = posFactorial.yPos[randIdx[i]];
-            drawCircle(ctx, xPos1, yPos1, rad, 'black', 'red', 2);
+            drawCircle(ctx, xPos1, yPos1, rad, 'red', 'red', 2);
         };
         for(i = n1; i < (n1 + n2); i++) {
             let xPos2 = posFactorial.xPos[randIdx[i]];
             let yPos2 = posFactorial.yPos[randIdx[i]];
-            drawCircle(ctx, xPos2, yPos2, rad, 'black', 'green', 2);
+            drawCircle(ctx, xPos2, yPos2, rad, 'blue', 'blue', 2);
         };
         zig++;
         if (zig == zigVec.length) { zig = 0 };

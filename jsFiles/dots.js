@@ -8,7 +8,7 @@ var dotsTask = (function() {
         signal: 10,
         noise: 10,
         nDots: 100,
-        nRounds: 5,
+        nRounds: 1,
         breakLength: 10,
     };
 
@@ -32,11 +32,11 @@ var dotsTask = (function() {
         prePractice: [
             `<div class='parent'>
                 <p>Welcome to Dot Detective!</p>
-                <p>In Dot Detective, you'll see a series of grids. Each grid will contain <span style="color: red">red</span> dots and <span style="color: green">green</span> dots.
+                <p>In Dot Detective, you'll see a series of grids. Each grid will contain <span style="color: red">red</span> dots and <span style="color: blue">blue</span> dots.
                 <br>The number of dots will change over time.</p>
-                <p>Sometimes, the average number of <span style="color: red">red</span> dots will be greater than the average number of <span style="color: green">green</span> dots.</p>
-                <p>Other times, the average number of <span style="color: green">green</span> dots will be greater than the average number of <span style="color: red">red</span> dots.</p>
-                <p><strong>Your job is to detect whether there are more <span style="color: red">red dots</span> or <span style="color: green">green dots</span> on average.</strong></p>
+                <p>Sometimes, the average number of <span style="color: red">red</span> dots will be greater than the average number of <span style="color: blue">blue</span> dots.</p>
+                <p>Other times, the average number of <span style="color: blue">blue</span> dots will be greater than the average number of <span style="color: red">red</span> dots.</p>
+                <p><strong>Your job is to detect whether there are more <span style="color: red">red dots</span> or <span style="color: blue">blue dots</span> on average.</strong></p>
             </div>`,
 
             `<div class='parent'>
@@ -118,7 +118,7 @@ var dotsTask = (function() {
         },
         canvas_size: [600, 800],
         choices: settings.responseKeys,
-        prompt: '<p>On average, on there more <span style="color: red">red</span> dots or <span style="color: green">green</span> dots?</p><p>Press <span style="color: red">"e" for red</span> and <span style="color: green">"i" for green</span>.</p>',
+        prompt: '<p>On average, on there more <span style="color: red">red</span> dots or <span style="color: blue">blue</span> dots?</p><p>Press <span style="color: red">"e" for red</span> and <span style="color: blue">"i" for blue</span>.</p>',
         data: {drift: jsPsych.timelineVariable('drift'), trialType: jsPsych.timelineVariable('trialType'), blockType: jsPsych.timelineVariable('blockType')},
         on_finish: function(data){
             data.round = round;
@@ -207,11 +207,16 @@ var dotsTask = (function() {
     p.Qs.demographics = (function() {
 
         const gender = {
-            type: jsPsychHtmlButtonResponse,
-            stimulus: '<p>What is your gender?</p>',
-            choices: ['Male', 'Female', 'Other'],
+            type: jsPsychSurveyHtmlForm,
+            preamble: '<p>What is your gender?</p>',
+            html: `<div style="text-align: left">
+            <p>Male <input name="gender" type="radio" value="male"/></p>
+            <p>Female <input name="gender" type="radio" value="female"/></p>
+            <p>Other <input name="other" type="text"/></p>
+            </div>`,
             on_finish: (data) => {
-                data.gender = data.response;
+                data.gender = data.response.gender;
+                data.gender_other = data.response.other;
             }
         };
 
@@ -224,11 +229,22 @@ var dotsTask = (function() {
         }; 
 
         const ethnicity = {
-            type: jsPsychHtmlButtonResponse,
-            stimulus: '<p>What is your race?</p>',
-            choices: ['White / Caucasian', 'Black / African American','Asian / Pacific Islander', 'Hispanic', 'Native American', 'Other'],
+            type: jsPsychSurveyHtmlForm,
+            preamble: '<p>What is your race / ethnicity?</p>',
+            html: `<div style="text-align: left">
+            <p>White / Caucasian <input name="ethnicity" type="radio" value="white"/></p>
+            <p>Black / African American <input name="ethnicity" type="radio" value="black"/></p>
+            <p>East Asian (e.g., Chinese, Korean, Vietnamese, etc.) <input name="ethnicity" type="radio" value="east-asian"/></p>
+            <p>South Asian (e.g., Indian, Pakistani, Sri Lankan, etc.) <input name="ethnicity" type="radio" value="south-asian"/></p>
+            <p>Latino / Hispanic <input name="ethnicity" type="radio" value="hispanic"/></p>
+            <p>Middle Eastern / North African <input name="ethnicity" type="radio" value="middle-eastern"/></p>
+            <p>Indigenous / First Nations <input name="ethnicity" type="radio" value="indigenous"/></p>
+            <p>Bi-racial <input name="ethnicity" type="radio" value="indigenous"/></p>
+            <p>Other <input name="other" type="text"/></p>
+            </div>`,
             on_finish: (data) => {
-                data.ethnicity = data.response;
+                data.ethnicity = data.response.ethnicity;
+                data.ethnicity_other = data.response.other;
             }
         };
 
